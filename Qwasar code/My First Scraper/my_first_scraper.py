@@ -7,15 +7,15 @@ def request_github_trending(url):
 
 def extract(page):
     soup = BeautifulSoup(page.content, 'html.parser')
-    html_repos = soup.find_all('li', {'class': 'col-12 d-block width-full py-4 border-bottom'})
+    html_repos = soup.find_all('article', {'class': 'Box-row'})
     return html_repos
 
 def transform(html_repos):
     repositories_data = []
     for repo in html_repos:
-        developer = repo.find('a', {'class': 'muted-link'}).text.strip()
-        repository_name = repo.find('a', {'class': 'text-bold'}).text.strip()
-        nbr_stars = repo.find('span', {'class': 'd-inline-block float-sm-right'}).text.strip()
+        developer = repo.find('span', {'class': 'text-normal'}).text.strip()
+        repository_name = repo.find('h1', {'class': 'h3 lh-condensed'}).text.strip()
+        nbr_stars = repo.find('a', {'class': 'Link--muted d-inline-block mr-3'}).text.strip()
         repositories_data.append({'developer': developer, 'repository_name': repository_name, 'nbr_stars': nbr_stars})
     return repositories_data
 
